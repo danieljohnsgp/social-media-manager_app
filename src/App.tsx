@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Auth } from './components/Auth';
+import { HomePage } from './components/HomePage';
 import { DashboardView } from './components/DashboardView';
 import { AICreator } from './components/AICreator';
 import { ContentLibrary } from './components/ContentLibrary';
@@ -26,6 +27,7 @@ type View = 'dashboard' | 'ai-creator' | 'content' | 'scheduler' | 'analytics' |
 function AppContent() {
   const { user, loading, signOut } = useAuth();
   const [currentView, setCurrentView] = useState<View>('dashboard');
+  const [showAuth, setShowAuth] = useState(false);
 
   console.log('AppContent render:', { user: user?.email, loading });
 
@@ -38,7 +40,10 @@ function AppContent() {
   }
 
   if (!user) {
-    return <Auth />;
+    if (showAuth) {
+      return <Auth />;
+    }
+    return <HomePage onGetStarted={() => setShowAuth(true)} />;
   }
 
   const navItems = [
