@@ -23,13 +23,37 @@ export function AICreator() {
     { id: 'facebook', name: 'Facebook', icon: '📘' },
   ];
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const response = await fetch('https://danieljohnsgp.app.n8n.cloud/webhook-test/receive-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+          userId: user?.id,
+          email: user?.email,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const content = data.generatedContent || `🚀 ${prompt}\n\nI'm excited to share this with you! This is an AI-generated post that's optimized for engagement across social platforms.\n\n#SocialMedia #AI #Automation`;
+        setGeneratedContent(content);
+      } else {
+        const content = `🚀 ${prompt}\n\nI'm excited to share this with you! This is an AI-generated post that's optimized for engagement across social platforms.\n\n#SocialMedia #AI #Automation`;
+        setGeneratedContent(content);
+      }
+    } catch (error) {
+      console.error('Error calling webhook:', error);
       const content = `🚀 ${prompt}\n\nI'm excited to share this with you! This is an AI-generated post that's optimized for engagement across social platforms.\n\n#SocialMedia #AI #Automation`;
       setGeneratedContent(content);
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   const handleSave = async () => {
