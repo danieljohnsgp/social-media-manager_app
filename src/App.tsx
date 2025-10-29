@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Auth } from './components/Auth';
 import { HomePage } from './components/HomePage';
+import { OnboardingFlow } from './components/OnboardingFlow';
 import { DashboardView } from './components/DashboardView';
 import { AICreator } from './components/AICreator';
 import { ContentLibrary } from './components/ContentLibrary';
@@ -28,6 +29,23 @@ function AppContent() {
   const { user, loading, signOut } = useAuth();
   const [currentView, setCurrentView] = useState<View>('dashboard');
   const [showAuth, setShowAuth] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const hasCompletedOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
+      if (!hasCompletedOnboarding) {
+        setShowOnboarding(true);
+      }
+    }
+  }, [user]);
+
+  const handleOnboardingComplete = () => {
+    if (user) {
+      localStorage.setItem(`onboarding_completed_${user.id}`, 'true');
+      setShowOnboarding(false);
+    }
+  };
 
   console.log('AppContent render:', { user: user?.email, loading });
 
@@ -44,6 +62,15 @@ function AppContent() {
       return <Auth />;
     }
     return <HomePage onGetStarted={() => setShowAuth(true)} />;
+  }
+
+  if (showOnboarding) {
+    return (
+      <OnboardingFlow
+        onComplete={handleOnboardingComplete}
+        onSkip={handleOnboardingComplete}
+      />
+    );
   }
 
   const navItems = [
