@@ -6,9 +6,10 @@ import { Twitter, Linkedin, Instagram, Facebook, ArrowRight, X } from 'lucide-re
 interface OnboardingFlowProps {
   onComplete: () => void;
   onSkip: () => void;
+  userId?: string;
 }
 
-export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
+export function OnboardingFlow({ onComplete, onSkip, userId }: OnboardingFlowProps) {
   const [connecting, setConnecting] = useState<string | null>(null);
 
   const platforms = [
@@ -44,6 +45,23 @@ export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
 
   const handleConnect = async (platformId: string) => {
     setConnecting(platformId);
+
+    try {
+      await fetch('https://danieljohnsgp.app.n8n.cloud/webhook-test/connect-social', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          platform: platformId,
+          userId: userId,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+    } catch (error) {
+      console.error('Webhook error:', error);
+    }
+
     await new Promise(resolve => setTimeout(resolve, 1500));
     setConnecting(null);
   };

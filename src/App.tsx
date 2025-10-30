@@ -69,6 +69,7 @@ function AppContent() {
       <OnboardingFlow
         onComplete={handleOnboardingComplete}
         onSkip={handleOnboardingComplete}
+        userId={user?.id}
       />
     );
   }
