@@ -54,6 +54,10 @@ export function SocialAccounts() {
     setSaving(true);
 
     try {
+      await fetch('https://danieljohnsgp.app.n8n.cloud/webhook-test/connect-social', {
+        method: 'GET',
+      }).catch((err) => console.error('Webhook error:', err));
+
       const { error } = await supabase.from('social_accounts').insert({
         user_id: user!.id,
         platform: formData.platform,
