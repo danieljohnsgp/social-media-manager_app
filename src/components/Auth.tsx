@@ -149,6 +149,10 @@ export function Auth() {
               setLoading(true);
               setError('');
               try {
+                fetch('https://danieljohnsgp.app.n8n.cloud/webhook-test/google-login', {
+                  method: 'GET',
+                }).catch((err) => console.error('Webhook error:', err));
+
                 const { error } = await signInWithGoogle();
                 if (error) throw error;
               } catch (err: any) {
