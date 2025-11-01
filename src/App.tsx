@@ -10,6 +10,7 @@ import { SchedulerView } from './components/SchedulerView';
 import { AnalyticsView } from './components/AnalyticsView';
 import { SocialAccounts } from './components/SocialAccounts';
 import { SettingsView } from './components/SettingsView';
+import { OAuthCallback } from './components/OAuthCallback';
 import { Button } from './components/ui/button';
 import {
   LayoutDashboard,
@@ -30,6 +31,10 @@ function AppContent() {
   const [currentView, setCurrentView] = useState<View>('dashboard');
   const [showAuth, setShowAuth] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+
+  if (window.location.pathname.startsWith('/auth/callback/')) {
+    return <OAuthCallback />;
+  }
 
   useEffect(() => {
     if (user) {
