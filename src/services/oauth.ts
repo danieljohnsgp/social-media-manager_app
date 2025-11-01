@@ -86,8 +86,22 @@ export function generateState(): string {
 export async function initiateOAuth(platform: string): Promise<void> {
   const config = oauthConfigs[platform]?.();
 
-  if (!config || !config.clientId) {
-    throw new Error(`OAuth not configured for ${platform}. Please add credentials to .env file.`);
+  console.log('OAuth Debug:', {
+    platform,
+    hasConfig: !!config,
+    clientId: config?.clientId || 'MISSING',
+    allEnvVars: {
+      twitter: import.meta.env.VITE_TWITTER_CLIENT_ID || 'NOT_SET',
+      instagram: import.meta.env.VITE_INSTAGRAM_CLIENT_ID || 'NOT_SET',
+    }
+  });
+
+  if (!config) {
+    throw new Error(`Platform ${platform} is not supported.`);
+  }
+
+  if (!config.clientId) {
+    throw new Error(`OAuth not configured for ${platform}. Please add credentials to .env file and restart the dev server.`);
   }
 
   const state = generateState();
