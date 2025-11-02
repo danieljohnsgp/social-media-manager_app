@@ -121,20 +121,20 @@ export function DashboardView() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">Welcome back! Here's your overview</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">Welcome back! Here's your overview</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.title}>
+            <Card key={stat.title} className="dark:bg-gray-800 dark:border-gray-700">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">{stat.value}</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.title}</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">{stat.value}</p>
                   </div>
                   <div className={`${stat.color} p-3 rounded-lg`}>
                     <Icon className="w-6 h-6 text-white" />
@@ -148,16 +148,16 @@ export function DashboardView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardHeader>
-              <CardTitle>Recent Posts</CardTitle>
+              <CardTitle className="dark:text-white">Recent Posts</CardTitle>
             </CardHeader>
             <CardContent>
               {recentPosts.length === 0 ? (
                 <div className="text-center py-12">
-                  <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-600">No posts yet</p>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <FileText className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                  <p className="text-gray-600 dark:text-gray-400">No posts yet</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
                     Create your first post using the AI Creator
                   </p>
                 </div>
@@ -166,11 +166,11 @@ export function DashboardView() {
                   {recentPosts.map((post) => (
                     <div
                       key={post.id}
-                      className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <p className="text-sm text-gray-900 line-clamp-2">{post.content}</p>
+                          <p className="text-sm text-gray-900 dark:text-gray-200 line-clamp-2">{post.content}</p>
                           <div className="flex items-center gap-3 mt-2">
                             <span
                               className={`px-2 py-1 text-xs font-medium rounded ${
@@ -200,9 +200,9 @@ export function DashboardView() {
         </div>
 
         <div>
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 dark:text-white">
                 <Flame className="w-5 h-5 text-orange-500" />
                 Trending Now
               </CardTitle>
@@ -214,21 +214,21 @@ export function DashboardView() {
                   return (
                     <div
                       key={index}
-                      className="p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all cursor-pointer group"
+                      className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all cursor-pointer group"
                     >
                       <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           #{trend.topic}
                         </h4>
                         <div className={`${getPlatformColor(trend.platform)} p-1.5 rounded`}>
                           <Icon className="w-3.5 h-3.5 text-white" />
                         </div>
                       </div>
-                      <p className="text-xs text-gray-600 mb-2 line-clamp-2">
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
                         {trend.description}
                       </p>
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-gray-500">{trend.posts} posts</span>
+                        <span className="text-gray-500 dark:text-gray-400">{trend.posts} posts</span>
                         <span className="text-orange-600 font-medium flex items-center gap-1">
                           <TrendingUp className="w-3 h-3" />
                           {trend.growth}

@@ -139,8 +139,8 @@ export function SchedulerView() {
     <div className="p-8">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Scheduler</h1>
-          <p className="text-gray-600 mt-1">Schedule your posts for optimal engagement</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Scheduler</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Schedule your posts for optimal engagement</p>
         </div>
         <Button onClick={() => setShowScheduleForm(!showScheduleForm)}>
           <Calendar className="w-4 h-4 mr-2" />
@@ -149,14 +149,14 @@ export function SchedulerView() {
       </div>
 
       {showScheduleForm && (
-        <Card className="mb-6">
+        <Card className="mb-6 dark:bg-gray-800 dark:border-gray-700">
           <CardHeader>
-            <CardTitle>Schedule New Post</CardTitle>
+            <CardTitle className="dark:text-white">Schedule New Post</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSchedule} className="space-y-4">
               <div>
-                <Label htmlFor="content">Post Content</Label>
+                <Label htmlFor="content" className="dark:text-gray-200">Post Content</Label>
                 <Textarea
                   id="content"
                   value={formData.content}
@@ -164,13 +164,13 @@ export function SchedulerView() {
                     setFormData({ ...formData, content: e.target.value })
                   }
                   placeholder="What would you like to post?"
-                  className="mt-2 min-h-[100px]"
+                  className="mt-2 min-h-[100px] dark:bg-gray-700 dark:text-white dark:border-gray-600"
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="scheduled_for">Schedule Date & Time</Label>
+                <Label htmlFor="scheduled_for" className="dark:text-gray-200">Schedule Date & Time</Label>
                 <Input
                   id="scheduled_for"
                   type="datetime-local"
@@ -178,13 +178,13 @@ export function SchedulerView() {
                   onChange={(e) =>
                     setFormData({ ...formData, scheduled_for: e.target.value })
                   }
-                  className="mt-2"
+                  className="mt-2 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                   required
                 />
               </div>
 
               <div>
-                <Label>Media (Images/Videos)</Label>
+                <Label className="dark:text-gray-200">Media (Images/Videos)</Label>
                 <div className="mt-2 space-y-3">
                   <div className="flex items-center gap-2">
                     <Input
@@ -250,7 +250,7 @@ export function SchedulerView() {
               </div>
 
               <div>
-                <Label>Select Platforms</Label>
+                <Label className="dark:text-gray-200">Select Platforms</Label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-2">
                   {platforms.map((platform) => (
                     <button
@@ -259,8 +259,8 @@ export function SchedulerView() {
                       onClick={() => togglePlatform(platform)}
                       className={`p-3 border-2 rounded-lg capitalize transition-all ${
                         formData.platforms.includes(platform)
-                          ? 'border-blue-600 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-white'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 dark:text-gray-300'
                       }`}
                     >
                       {platform}
@@ -302,24 +302,24 @@ export function SchedulerView() {
 
       <div className="grid grid-cols-1 gap-6">
         {posts.length === 0 ? (
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardContent className="text-center py-12">
-              <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <Calendar className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                 No scheduled posts
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Schedule your posts to automate your social media presence
               </p>
             </CardContent>
           </Card>
         ) : (
           posts.map((post) => (
-            <Card key={post.id}>
+            <Card key={post.id} className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div>
-                    <CardTitle className="text-base mb-2">
+                    <CardTitle className="text-base mb-2 dark:text-white">
                       {new Date(post.scheduled_for).toLocaleString('en-US', {
                         weekday: 'long',
                         year: 'numeric',
@@ -343,7 +343,7 @@ export function SchedulerView() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 whitespace-pre-wrap">{post.content}</p>
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{post.content}</p>
                 {post.media_urls && post.media_urls.length > 0 && (
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
                     {post.media_urls.map((url: string, index: number) => {
