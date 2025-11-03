@@ -26,7 +26,7 @@ export function AICreator() {
   const handleGenerate = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://danieljohnsgp.app.n8n.cloud/webhook/receive-message', {
+      const response = await fetch('https://samyog.app.n8n.cloud/webhook-test/receive-message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
