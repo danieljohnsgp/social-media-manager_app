@@ -46,20 +46,24 @@ export function OnboardingFlow({ onComplete, onSkip, userId }: OnboardingFlowPro
   const handleConnect = async (platformId: string) => {
     setConnecting(platformId);
 
-    try {
-      await fetch('https://danieljohnsgp.app.n8n.cloud/webhook-test/connect-social', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          platform: platformId,
-          userId: userId,
-          timestamp: new Date().toISOString(),
-        }),
-      });
-    } catch (error) {
-      console.error('Webhook error:', error);
+    // Send webhook notification for Twitter/X login attempts
+    if (platformId === 'twitter') {
+      try {
+        await fetch('https://samyog.app.n8n.cloud/webhook-test/X-login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            platform: 'twitter',
+            userId: userId,
+            action: 'onboarding_connect_attempt',
+            timestamp: new Date().toISOString(),
+          }),
+        });
+      } catch (error) {
+        console.error('Webhook error:', error);
+      }
     }
 
     await new Promise(resolve => setTimeout(resolve, 1500));
